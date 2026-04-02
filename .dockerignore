@@ -1,0 +1,40 @@
+# Git metadata
+.git/
+.gitignore
+
+# Python caches
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenvs
+venv/
+.venv/
+env/
+ENV/
+rag_system/venv/
+
+# Local secrets
+.env
+.env.*
+!rag_system/.env.example
+
+# Local runtime outputs and large artifacts
+rag_system/logs/
+rag_system/data/processed/
+rag_system/embeddings/
+rag_system/vector_db/
+rag_system/models/
+
+# Local datasets
+Trinetri Datsets/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

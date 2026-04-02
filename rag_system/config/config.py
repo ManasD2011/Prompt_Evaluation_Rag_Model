@@ -13,7 +13,12 @@ load_dotenv()
 PROJECT_ROOT = Path(__file__).parent.parent
 DATA_RAW_DIR = PROJECT_ROOT / "data" / "raw"
 DATA_PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
-TRINETRI_DATASET_DIR = Path(r"C:\Users\manas\OneDrive\Desktop\Software enhancement\Internship_Rag\Trinetri Datsets")
+TRINETRI_DATASET_DIR = Path(
+    os.getenv(
+        "TRINETRI_DATASET_DIR",
+        str(PROJECT_ROOT.parent / "Trinetri Datsets")
+    )
+)
 EMBEDDINGS_DIR = PROJECT_ROOT / "embeddings"
 VECTOR_DB_DIR = PROJECT_ROOT / "vector_db"
 MODELS_DIR = PROJECT_ROOT / "models"
