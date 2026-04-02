@@ -1,0 +1,72 @@
+# -----------------------------
+# OS / Editor noise
+# -----------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.iml
+
+# -----------------------------
+# Python cache / build artifacts
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+site/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# -----------------------------
+# Virtual environments
+# -----------------------------
+venv/
+.venv/
+.env/
+venv/
+.env/
+env/
+ENV/
+rag_system/venv/
+
+# -----------------------------
+# Secrets / local env
+# -----------------------------
+.env
+.env.*
+!.env.example
+rag_system/.env
+!rag_system/.env.example
+.env.local
+
+
+# -----------------------------
+# Project runtime artifacts
+# -----------------------------
+*.log
+logs/
+rag_system/logs/
+
+# Data outputs
+rag_system/data/processed/
+rag_system/embeddings/
+rag_system/vector_db/
+rag_system/models/
+
+# -----------------------------
+# Local datasets (not for git)
+# -----------------------------
+Trinetri Datsets/
