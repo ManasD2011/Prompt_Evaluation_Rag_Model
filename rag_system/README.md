@@ -99,7 +99,6 @@ rag_system/
 
 ### Step 1: Clone/Setup Project
 ```bash
-cd c:\Users\manas\OneDrive\Desktop\Software\ enhancement\Internship_Rag
 cd rag_system
 ```
 
