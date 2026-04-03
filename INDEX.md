@@ -115,7 +115,7 @@ rag_system/
 
 ### Step 1: Install & Activate Environment
 ```bash
-cd c:\Users\manas\OneDrive\Desktop\Software\ enhancement\Internship_Rag\rag_system
+cd c:\Users\rag_system
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
@@ -527,7 +527,7 @@ All components are integrated and production-ready:
 ## 🎯 First Command to Run
 
 ```bash
-cd c:\Users\manas\OneDrive\Desktop\Software\ enhancement\Internship_Rag\rag_system
+cd c:\Users\rag_system
 python main.py
 # Select option 1 to see demo mode
 ```
