@@ -131,29 +131,37 @@ cp .env.example .env
 ### Step 5: Verify Installation
 ```bash
 python main.py
-# Select option 3 to test Gemini API
+# Auto-loads configured dataset path and starts interactive session
+```
+
+Optional API-only check:
+```bash
+python -c "from src.gemini_integration import test_gemini_setup; print(test_gemini_setup())"
 ```
 
 ---
 
 ## ⚡ Quick Start
 
-### Option A: Demo Mode (Sample Data)
+### Run The CLI
 ```bash
 python main.py
-# Select option 1
 ```
 
-This runs with 5 sample documents and doesn't require your own dataset.
+`main.py` auto-loads `TRINETRI_DATASET_DIR` from config/environment, builds the RAG index, and opens the interactive prompt (`RAG>`).
 
-### Option B: Use Your Excel Data
+### Use Your Excel Data
+Set your dataset directory in `.env`:
+```env
+TRINETRI_DATASET_DIR=C:\path\to\your\excel_directory
+```
+
+Then run:
 ```bash
 python main.py
-# Select option 2
-# Enter path to Excel file
 ```
 
-### Option C: Interactive Python Session
+### Interactive Python Session
 ```python
 from src.rag_pipeline import RAGPipeline
 
@@ -356,8 +364,7 @@ This system evaluates answers using a sophisticated 6-category rubric:
 
 4. **Test Connection:**
    ```bash
-   python main.py
-   # Select option 3
+   python -c "from src.gemini_integration import test_gemini_setup; print(test_gemini_setup())"
    ```
 
 ### Free Tier Limits

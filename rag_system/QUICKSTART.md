@@ -49,21 +49,19 @@ GEMINI_API_KEY=your_api_key_here
 
 ### Step 3: Test Installation (1 min)
 ```bash
-python main.py
-# Select option 3 to test API setup
+python -c "from src.gemini_integration import test_gemini_setup; print(test_gemini_setup())"
 ```
 
-### Step 4: Run With Sample Data (- min)
+### Step 4: Point To Your Dataset (- min)
 ```bash
-python main.py
-# Select option 1 for demo mode
+# In .env, set:
+# TRINETRI_DATASET_DIR=C:\path\to\your\excel_directory
 ```
 
-### Step 5: Use Your Data (-)
+### Step 5: Start CLI (-)
 ```bash
 python main.py
-# Select option 2
-# Enter path to your Excel file
+# Auto-loads TRINETRI_DATASET_DIR and starts interactive mode
 ```
 
 ---
@@ -276,8 +274,8 @@ BATCH_SIZE_EMBEDDINGS = 16  # From 32
 
 1. **Start Here** → This file (you are here!)
 2. **Setup** → Follow SETUP_GUIDE.md
-3. **Run Demo** → python main.py (option 1)
-4. **Use Your Data** → python main.py (option 2)
+3. **Set Dataset Path** → Update `TRINETRI_DATASET_DIR` in `.env`
+4. **Run CLI** → `python main.py`
 5. **Customize** → Edit config/config.py
 6. **Deep Dive** → Read API_REFERENCE.md
 7. **Full Details** → Read README.md
@@ -357,8 +355,7 @@ python -c "import torch, pandas, faiss; print('✓ OK')"
 tail -f logs/rag_system.log
 
 # Test Gemini API
-python main.py
-# Select option 3
+python -c "from src.gemini_integration import test_gemini_setup; print(test_gemini_setup())"
 ```
 
 ---
@@ -468,7 +465,7 @@ venv\Scripts\activate  # Windows
 python main.py
 ```
 
-Select option 1 for demo, option 2 for your data!
+System auto-loads your configured dataset path and enters `RAG>` interactive mode.
 
 ---
 

@@ -36,12 +36,13 @@ logger = logging.getLogger(__name__)
 class RAGPipeline:
     """Complete RAG system orchestration"""
     
-    def __init__(self, load_from_saved: bool = False):
+    def __init__(self, load_from_saved: bool = False, initialize_llm: bool = True):
         """
         Initialize RAG pipeline
         
         Args:
             load_from_saved: Load existing embeddings and index
+            initialize_llm: Initialize LLM client during startup
         """
         logger.info("=" * 70)
         logger.info("Initializing RAG Pipeline")
@@ -53,23 +54,26 @@ class RAGPipeline:
         self.llm_provider = LLM_PROVIDER
         self.evaluation_metrics = EvaluationMetrics()
         
-        # Try to initialize selected LLM provider (non-critical if fails)
-        try:
-            if self.llm_provider == "openai":
-                self.llm_api = OpenAIAPI()
-                logger.info("[OK] OpenAI API initialized")
-            else:
-                # Default to Gemini for unknown provider values
-                if self.llm_provider != "gemini":
-                    logger.warning(
-                        f"Unknown LLM_PROVIDER '{self.llm_provider}'. Falling back to 'gemini'."
-                    )
-                    self.llm_provider = "gemini"
-                self.llm_api = GeminiAPI()
-                logger.info("[OK] Gemini API initialized")
-        except Exception as e:
-            logger.warning(f"{self.llm_provider} API initialization failed: {str(e)}")
-            logger.warning("RAG pipeline will run in retrieval-only mode.")
+        if initialize_llm:
+            # Try to initialize selected LLM provider (non-critical if fails)
+            try:
+                if self.llm_provider == "openai":
+                    self.llm_api = OpenAIAPI()
+                    logger.info("[OK] OpenAI API initialized")
+                else:
+                    # Default to Gemini for unknown provider values
+                    if self.llm_provider != "gemini":
+                        logger.warning(
+                            f"Unknown LLM_PROVIDER '{self.llm_provider}'. Falling back to 'gemini'."
+                        )
+                        self.llm_provider = "gemini"
+                    self.llm_api = GeminiAPI()
+                    logger.info("[OK] Gemini API initialized")
+            except Exception as e:
+                logger.warning(f"{self.llm_provider} API initialization failed: {str(e)}")
+                logger.warning("RAG pipeline will run in retrieval-only mode.")
+        else:
+            logger.info("LLM initialization skipped. Running retrieval-only mode.")
         
         if load_from_saved:
             self.load_from_disk()

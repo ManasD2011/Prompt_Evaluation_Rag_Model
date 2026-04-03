@@ -89,6 +89,16 @@ class FAISSVectorDatabase:
             raise ValueError(
                 f"Embeddings must be 2D (N, D). Got shape {embeddings.shape}."
             )
+
+        if len(texts) != len(embeddings):
+            raise ValueError(
+                f"Texts count ({len(texts)}) must match embeddings count ({len(embeddings)})."
+            )
+
+        if metadata is not None and len(metadata) != len(texts):
+            raise ValueError(
+                f"Metadata count ({len(metadata)}) must match texts count ({len(texts)})."
+            )
         
         logger.info(f"Adding {len(embeddings)} embeddings to index")
         
@@ -121,22 +131,33 @@ class FAISSVectorDatabase:
         if self.index is None or self.index.ntotal == 0:
             logger.warning("Index is empty. No results to retrieve.")
             return [], [], []
+
+        if top_k <= 0:
+            logger.warning("top_k must be > 0.")
+            return [], [], []
         
         # Ensure query embedding is float32
         query_embedding = query_embedding.reshape(1, -1).astype(np.float32)
-        
+
+        requested_k = min(top_k, self.index.ntotal)
+
         # Search
-        distances, indices = self.index.search(query_embedding, top_k)
-        
-        # Convert L2 distances to similarity scores (normalized)
-        # L2 distance to cosine-like similarity
-        similarities = 1.0 / (1.0 + distances[0])  # Convert distance to similarity
-        
-        # Extract results
-        results_texts = [self.texts[i] for i in indices[0]]
-        results_metadata = [self.metadata[i] for i in indices[0]]
-        
-        return similarities.tolist(), results_texts, results_metadata
+        distances, indices = self.index.search(query_embedding, requested_k)
+
+        # Build validated results in case FAISS returns sentinel indices (-1)
+        results: List[Tuple[float, str, Dict]] = []
+        for distance, idx in zip(distances[0], indices[0]):
+            if idx < 0 or idx >= len(self.texts):
+                continue
+            similarity = 1.0 / (1.0 + float(distance))
+            result_metadata = self.metadata[idx] if idx < len(self.metadata) else {}
+            results.append((similarity, self.texts[idx], result_metadata))
+
+        if not results:
+            return [], [], []
+
+        similarities, results_texts, results_metadata = zip(*results)
+        return list(similarities), list(results_texts), list(results_metadata)
     
     def search_with_threshold(self, query_embedding: np.ndarray,
                              top_k: int = TOP_K_RETRIEVAL,
@@ -245,6 +266,31 @@ class FAISSVectorDatabase:
         self.texts = []
         self.ids = []
         logger.info("[OK] Vector database reset")
+    
+    def search_text(self, query_text: str, k: int = TOP_K_RETRIEVAL) -> List[Dict]:
+        """
+        Search using text query (auto-embeds the query)
+        
+        Args:
+            query_text: Text query
+            k: Number of results
+            
+        Returns:
+            List of result dictionaries
+        """
+        from src.embedding_generator import EmbeddingGenerator
+        
+        generator = EmbeddingGenerator()
+        query_embedding = generator.generate_embedding(query_text)
+        
+        similarities, texts, metadata = self.search(query_embedding, top_k=k)
+        
+        results = [
+            {"text": text, "similarity": sim, "metadata": meta}
+            for text, sim, meta in zip(texts, similarities, metadata)
+        ]
+        
+        return results
     
     def get_stats(self) -> Dict:
         """Get database statistics"""

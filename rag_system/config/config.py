@@ -40,7 +40,7 @@ METADATA_PATH = VECTOR_DB_DIR / "metadata.json"
 USE_FAISS = True  # Change to ChromaDB if needed
 
 # ============= RAG CONFIG =============
-TOP_K_RETRIEVAL = 3  # Number of documents to retrieve for context
+TOP_K_RETRIEVAL = 5 # Number of documents to retrieve for context
 SIMILARITY_THRESHOLD = 0.45  # Minimum similarity score for retrieval
 MAX_CONTEXT_LENGTH = 2000  # Max characters for context in prompt
 ALLOW_LLM_NO_CONTEXT_FALLBACK = os.getenv("ALLOW_LLM_NO_CONTEXT_FALLBACK", "false").strip().lower() == "true"

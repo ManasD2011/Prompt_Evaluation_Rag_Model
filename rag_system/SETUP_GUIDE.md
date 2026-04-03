@@ -111,8 +111,7 @@ GEMINI_API_KEY=your_actual_api_key_here
 
 #### Step 3.4: Test API Connection
 ```bash
-python main.py
-# Select option 3: Test Gemini API Setup
+python -c "from src.gemini_integration import test_gemini_setup; print(test_gemini_setup())"
 ```
 
 Expected output:
@@ -163,8 +162,8 @@ python
 #### Step 5.1: Run Data Preprocessing
 ```bash
 python main.py
-# Select option 2: Load Excel Dataset
-# Enter path: C:\Users\manas\OneDrive\Desktop\Trinetri Datsets\yourfile.xlsx
+# Ensure .env has:
+# TRINETRI_DATASET_DIR=C:\Users\manas\OneDrive\Desktop\Trinetri Datsets
 ```
 
 **What happens:**
@@ -272,7 +271,7 @@ for i, (doc, sim) in enumerate(zip(documents, similarities)):
 #### Step 8.1: Launch Interactive Mode
 ```bash
 python main.py
-# Select option 2 and follow prompts
+# Auto-loads configured dataset path and opens RAG> prompt
 ```
 
 #### Step 8.2: Try Commands
@@ -562,7 +561,7 @@ pip install -r requirements.txt --upgrade
 - [ ] All dependencies installed (`pip install -r requirements.txt`)
 - [ ] Gemini API key obtained
 - [ ] `.env` file created with API key
-- [ ] API connection tested (option 3 in main.py)
+- [ ] API connection tested (`test_gemini_setup`)
 - [ ] Excel dataset located and verified
 - [ ] Data preprocessing complete
 - [ ] Embeddings generated
