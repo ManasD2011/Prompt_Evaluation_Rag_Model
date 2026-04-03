@@ -303,8 +303,8 @@ def demo_mode():
 
 def main():
     """Main entry point (auto-runs with configured dataset path)."""
-    print_banner()
-
+    # Banner removed - clean startup
+    
     excel_path = str(TRINETRI_DATASET_DIR)
     logger.info(f"Auto-loading configured dataset path: {excel_path}")
 
