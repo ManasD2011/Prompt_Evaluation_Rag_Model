@@ -2,7 +2,7 @@
 
 ## ✅ What Has Been Created
 
-Your ** Retrieval-Augmented Generation (RAG) system** with a **6-category evaluation rubric** is now complete and ready to use!
+Your **Retrieval-Augmented Generation (RAG) system** with a **6-category evaluation rubric** is now complete and ready to use!
 
 ---
 
